@@ -546,6 +546,29 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
   .marquee__track{animation:none}
 }
 
+
+/* ---------- romance band (intro → services) ----------
+   One continuous deep-maroon gradient behind the intro, about and services
+   sections, with soft makeup brush strokes scattered along it. */
+.romance{position:relative;isolation:isolate;overflow:hidden;color:var(--ivory);
+  background:
+    radial-gradient(60% 40% at 85% 8%,rgba(156,62,74,.38),transparent 70%),
+    radial-gradient(55% 35% at 8% 42%,rgba(120,38,52,.42),transparent 72%),
+    radial-gradient(60% 38% at 92% 78%,rgba(142,58,66,.32),transparent 70%),
+    linear-gradient(180deg,#2a0d13 0%,#3d1119 22%,#4a1520 45%,#3a1018 70%,#240a10 100%);
+  --taupe:rgba(247,235,230,.66);--charcoal:#f4e4df;--stone:rgba(247,235,230,.5);
+  --line:rgba(247,235,230,.16);--line-strong:rgba(247,235,230,.32);--cream:#3a141b}
+.romance > .section,.romance > .section--cream{background:transparent;position:relative;z-index:1}
+.romance .intro__head .accent{color:#e6b7ad}
+.romance .btn--dark{color:var(--ivory)}
+.romance .btn--dark::before{background:var(--ivory)}
+.romance .btn--dark:hover{color:#3a1018}
+.romance .btn--solid-dark{color:#3a1018;background:var(--ivory);border-color:var(--ivory)}
+.romance .btn--solid-dark::before{background:var(--champagne)}
+.romance .btn--solid-dark:hover{color:#3a1018}
+.romance__strokes{position:absolute;inset:0;z-index:0;pointer-events:none}
+.romance__strokes svg{position:absolute;overflow:visible;mix-blend-mode:screen}
+@media (max-width:760px){.romance__strokes svg{opacity:.32}}
 </style>
 <script type="application/ld+json">
 {
@@ -653,6 +676,38 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
     </div>
   </section>
 
+  <div class="romance">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="brushGrad" x1="0" x2="1" y1="0" y2="0">
+        <stop offset="0" stop-color="#e9c2b4" stop-opacity="0"/>
+        <stop offset=".18" stop-color="#e9c2b4" stop-opacity=".85"/>
+        <stop offset=".6" stop-color="#d9a08f" stop-opacity=".7"/>
+        <stop offset="1" stop-color="#f2d9c4" stop-opacity="0"/>
+      </linearGradient>
+      <filter id="brushTex" x="-10%" y="-40%" width="120%" height="180%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.003 0.32" numOctaves="2" seed="7" result="streaks"/>
+        <feColorMatrix in="streaks" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 2.4 -0.7" result="streakAlpha"/>
+        <feComposite in="SourceGraphic" in2="streakAlpha" operator="in" result="bristled"/>
+        <feTurbulence type="fractalNoise" baseFrequency="0.02 0.08" numOctaves="2" seed="3" result="edge"/>
+        <feDisplacementMap in="bristled" in2="edge" scale="10" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+      <symbol id="brushStroke" viewBox="0 0 600 120">
+        <path filter="url(#brushTex)" fill="url(#brushGrad)" d="M6 78C90 40 230 22 380 26c80 2 150 10 214 20-40 10-120 20-210 30C250 92 120 100 6 92z"/>
+      </symbol>
+    </defs>
+  </svg>
+  <div class="romance__strokes" aria-hidden="true">
+    <svg style="left:58%;top:1.5%;width:520px;transform:rotate(-14deg);opacity:0.55" viewBox="0 0 600 120"><use href="#brushStroke"/></svg>
+    <svg style="left:-6%;top:14%;width:420px;transform:rotate(8deg);opacity:0.45" viewBox="0 0 600 120"><use href="#brushStroke"/></svg>
+    <svg style="left:70%;top:30%;width:360px;transform:rotate(-22deg);opacity:0.5" viewBox="0 0 600 120"><use href="#brushStroke"/></svg>
+    <svg style="left:-4%;top:47%;width:560px;transform:rotate(-6deg);opacity:0.4" viewBox="0 0 600 120"><use href="#brushStroke"/></svg>
+    <svg style="left:64%;top:60%;width:440px;transform:rotate(12deg);opacity:0.5" viewBox="0 0 600 120"><use href="#brushStroke"/></svg>
+    <svg style="left:20%;top:74%;width:300px;transform:rotate(-28deg);opacity:0.45" viewBox="0 0 600 120"><use href="#brushStroke"/></svg>
+    <svg style="left:72%;top:88%;width:480px;transform:rotate(-10deg);opacity:0.5" viewBox="0 0 600 120"><use href="#brushStroke"/></svg>
+    <svg style="left:-8%;top:93%;width:380px;transform:rotate(16deg);opacity:0.4" viewBox="0 0 600 120"><use href="#brushStroke"/></svg>
+  </div>
+
   <!-- ============ INTRODUCTION ============ -->
   <section class="section" id="intro" aria-labelledby="intro-title">
     <div class="wrap intro__grid">
@@ -746,6 +801,7 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
       </div>
     </div>
   </section>
+  </div>
 
   <!-- ============ A GLIMPSE OF THE WORK ============ -->
   <section class="section section--ink" id="work" aria-labelledby="glimpse-title">
