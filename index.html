@@ -566,7 +566,14 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
 .romance .btn--solid-dark{color:#2e2515;background:var(--ivory);border-color:var(--ivory)}
 .romance .btn--solid-dark::before{background:var(--champagne)}
 .romance .btn--solid-dark:hover{color:#2e2515}
-.romance__strokes{position:absolute;inset:0;z-index:0;pointer-events:none}
+.romance__strokes{display:none}
+/* stationary backdrop: a hero-style brush swatch that stays put while the band scrolls over it */
+.romance{background:var(--ink)}
+.romance__bg{position:absolute;inset:0;z-index:-1;clip-path:inset(0);pointer-events:none}
+.romance__bg img{position:fixed;inset:0;width:100%;height:100%;max-width:none;object-fit:cover}
+.romance__bg::after{content:"";position:absolute;inset:0;background:
+  linear-gradient(180deg,rgba(20,17,16,.55) 0%,rgba(20,17,16,.3) 14%,rgba(20,17,16,.3) 80%,#141110 100%),
+  linear-gradient(90deg,rgba(28,18,14,.4),rgba(28,18,14,0) 60%)}
 .romance__strokes svg{position:absolute;overflow:visible}
 @media (max-width:760px){.romance__strokes svg,.strokes svg{scale:.5}}
 .romance{--stroke-body:#170f07;--stroke-hi:#6b4b2b;--stroke-lo:#070402}
@@ -686,6 +693,7 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
   </section>
 
   <div class="romance">
+  <div class="romance__bg" aria-hidden="true"><img id="romanceBg" alt=""></div>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
     <defs>
       <linearGradient id="strokeFade" x1="0" x2="1" y1="0" y2="0">
@@ -1477,6 +1485,8 @@ window.PORTFOLIO = [
   (function () {
     var portrait = window.innerHeight > window.innerWidth;
     $("#heroPlate").src = portrait ? makePlate("hero", 0, 900, 1400) : makePlate("hero", 0, 1700, 1050);
+    var romanceBg = $("#romanceBg");
+    if (romanceBg) romanceBg.src = portrait ? makePlate("hero", 2, 900, 1400) : makePlate("hero", 2, 1700, 1050);
     var fp = $("#finalPlate");
     fp.src = makePlate("glam", 2, 1500, 1000);
   })();
