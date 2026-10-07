@@ -10,7 +10,9 @@
 <meta property="og:site_name" content="Beauty by Diella">
 <meta property="og:title" content="Beauty by Diella | Makeup Artist in New Jersey &amp; NYC">
 <meta property="og:description" content="Professional makeup artistry for weddings, special events, photoshoots, and unforgettable moments. Serving New Jersey and New York City.">
-<meta property="og:image" content="images/og-image.jpg">
+<meta property="og:image" content="https://beautybydiella.com/images/og-image.jpg">
+<meta property="og:url" content="https://beautybydiella.com/">
+<link rel="canonical" href="https://beautybydiella.com/">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -610,6 +612,7 @@ body:has(#main-portfolio:not([hidden])) .nav.is-solid .btn:hover{color:var(--ink
   "name": "Beauty by Diella",
   "description": "Professional makeup artist for bridal, weddings, special events, photoshoots and editorial work in New Jersey and New York City.",
   "email": "diellaborici@gmail.com",
+  "telephone": "+1-973-380-2511",
   "founder": { "@type": "Person", "name": "Diella Borici", "jobTitle": "Makeup Artist" },
   "areaServed": [
     { "@type": "State", "name": "New Jersey" },
@@ -955,8 +958,10 @@ body:has(#main-portfolio:not([hidden])) .nav.is-solid .btn:hover{color:var(--ink
           <div><span class="label">Beauty by Diella</span><span class="v">Professional Makeup Artist</span></div>
           <div><span class="label">Serving</span><span class="v">NJ + NYC</span></div>
           <div><span class="label">Email</span><span class="v"><a data-site="email-link" href="mailto:diellaborici@gmail.com">diellaborici@gmail.com</a></span></div>
+          <div data-site="phone-item"><span class="label">Text</span><span class="v"><a data-site="phone-link" href="sms:+19733802511">(973) 380-2511</a></span></div>
         </div>
         <div class="contact-actions" data-reveal>
+          <a class="btn btn--light" data-site="phone-link" href="sms:+19733802511">Text Diella</a>
           <a class="btn btn--light" data-site="email-link" href="mailto:diellaborici@gmail.com">Email Diella</a>
           <button class="copy-btn" type="button" id="copyEmail">Copy email</button>
         </div>
@@ -1115,7 +1120,7 @@ body:has(#main-portfolio:not([hidden])) .nav.is-solid .btn:hover{color:var(--ink
         <ul>
           <li data-site="instagram-item"><a data-site="instagram" href="#" target="_blank" rel="noopener">Instagram</a></li>
           <li><a data-site="email-link" href="mailto:diellaborici@gmail.com">Email</a></li>
-          <li><a href="#book">Book now</a></li>
+          <li><a href="#book" data-book>Book now</a></li>
         </ul>
       </div>
     </div>
@@ -1160,6 +1165,10 @@ window.SITE = {
   name: "Beauty by Diella",
   artist: "Diella Borici",
   email: "diellaborici@gmail.com",
+
+  // Mobile number for texts. On phones, the "Book now" buttons open a text to this number.
+  // Leave empty ("") to keep them going to the booking form.
+  phone: "+1 (973) 380-2511",
 
   // Paste the full Instagram URL, e.g. "https://www.instagram.com/yourhandle/".
   // Leave empty ("") to hide the Instagram link.
@@ -1631,6 +1640,16 @@ window.PORTFOLIO = [
     el.href = "mailto:" + email;
     if (/@/.test(el.textContent)) el.textContent = email;
   });
+  var phone = (SITE.phone || "").replace(/[^\d+]/g, "");
+  if (phone) {
+    var smsBody = "Hi Diella! I found you on your website and I'd love to book makeup. ";
+    var smsHref = "sms:" + phone + "?&body=" + encodeURIComponent(smsBody);
+    $$('[data-site="phone-link"]').forEach(function (el) { el.href = smsHref; });
+    // Phones: booking buttons open a ready-to-send text. Desktop keeps the booking form.
+    if (window.matchMedia && matchMedia("(hover: none) and (pointer: coarse)").matches) {
+      $$('a.btn[href="#book"], a[data-book]').forEach(function (el) { el.href = smsHref; });
+    }
+  } else $$('[data-site="phone-item"], [data-site="phone-link"]').forEach(function (el) { el.hidden = true; });
   if (SITE.instagram) $$('[data-site="instagram"]').forEach(function (el) { el.href = SITE.instagram; });
   else $$('[data-site="instagram-item"]').forEach(function (el) { el.hidden = true; });
   $("#year").textContent = new Date().getFullYear();
