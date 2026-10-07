@@ -568,7 +568,9 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
 .romance .btn--solid-dark:hover{color:#2e2515}
 .romance__strokes{position:absolute;inset:0;z-index:0;pointer-events:none}
 .romance__strokes svg{position:absolute;overflow:visible}
-@media (max-width:760px){.romance__strokes svg,.strokes svg{scale:.55}}
+@media (max-width:760px){.romance__strokes svg,.strokes svg{scale:.5}}
+.romance{--stroke-body:#170f07;--stroke-hi:#6b4b2b;--stroke-lo:#070402}
+.has-strokes{--stroke-body:#050403;--stroke-hi:#4a3523;--stroke-lo:#000}
 .strokes{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .strokes svg{position:absolute;overflow:visible}
 .has-strokes > .wrap{position:relative;z-index:1}
@@ -688,52 +690,52 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
     <defs>
       <linearGradient id="strokeFade" x1="0" x2="1" y1="0" y2="0">
         <stop offset="0" stop-color="#fff"/>
-        <stop offset=".5" stop-color="#fff"/>
-        <stop offset=".85" stop-color="#777"/>
+        <stop offset=".62" stop-color="#fff"/>
+        <stop offset=".88" stop-color="#777"/>
         <stop offset="1" stop-color="#000"/>
       </linearGradient>
       <filter id="strokeDry" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
-        <feTurbulence type="fractalNoise" baseFrequency="0.002 0.16" numOctaves="3" seed="8" result="n"/>
+        <feTurbulence type="fractalNoise" baseFrequency="0.0015 0.13" numOctaves="3" seed="8" result="n"/>
         <feColorMatrix in="n" type="matrix" values="0 0 0 1 0  0 0 0 1 0  0 0 0 1 0  0 0 0 0 1" result="nv"/>
         <feComposite in="SourceGraphic" in2="nv" operator="arithmetic" k1="2.2" k2=".55" k3="0" k4="-.55" result="m"/>
         <feComponentTransfer in="m"><feFuncR type="linear" slope="3" intercept="-.6"/><feFuncG type="linear" slope="3" intercept="-.6"/><feFuncB type="linear" slope="3" intercept="-.6"/></feComponentTransfer>
       </filter>
-      <mask id="strokeMask" maskUnits="userSpaceOnUse" x="0" y="0" width="400" height="120">
-        <rect width="400" height="120" fill="url(#strokeFade)" filter="url(#strokeDry)"/>
+      <mask id="strokeMask" maskUnits="userSpaceOnUse" x="0" y="0" width="600" height="130">
+        <rect width="600" height="130" fill="url(#strokeFade)" filter="url(#strokeDry)"/>
       </mask>
       <filter id="strokeEdge" x="-5%" y="-30%" width="110%" height="160%">
-        <feTurbulence type="fractalNoise" baseFrequency="0.02 0.1" numOctaves="2" seed="2" result="edge"/>
-        <feDisplacementMap in="SourceGraphic" in2="edge" scale="8" xChannelSelector="R" yChannelSelector="G"/>
+        <feTurbulence type="fractalNoise" baseFrequency="0.015 0.09" numOctaves="2" seed="2" result="edge"/>
+        <feDisplacementMap in="SourceGraphic" in2="edge" scale="10" xChannelSelector="R" yChannelSelector="G"/>
       </filter>
       <filter id="strokeStreak" x="-5%" y="-30%" width="110%" height="160%">
-        <feTurbulence type="fractalNoise" baseFrequency="0.003 0.28" numOctaves="2" seed="31" result="s"/>
-        <feColorMatrix in="s" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 6 -3.6" result="sa"/>
+        <feTurbulence type="fractalNoise" baseFrequency="0.002 0.24" numOctaves="2" seed="31" result="s"/>
+        <feColorMatrix in="s" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 6 -3.7" result="sa"/>
         <feComposite in="SourceGraphic" in2="sa" operator="in"/>
       </filter>
-      <symbol id="stroke" viewBox="0 0 400 120">
+      <symbol id="stroke" viewBox="0 0 600 130">
         <g mask="url(#strokeMask)">
           <g filter="url(#strokeEdge)">
-            <path fill="#43291a" d="M6 78C10 32 50 14 108 12c92-2 192 14 286 38-58 22-152 42-254 52-64 6-114 4-134-24z"/>
-            <path fill="#6a4429" opacity=".55" filter="url(#strokeStreak)" d="M6 78C10 32 50 14 108 12c92-2 192 14 286 38-58 22-152 42-254 52-64 6-114 4-134-24z"/>
-            <path fill="#1f130a" opacity=".6" filter="url(#strokeStreak)" transform="translate(0 3)" d="M6 78C10 32 50 14 108 12c92-2 192 14 286 38-58 22-152 42-254 52-64 6-114 4-134-24z"/>
+            <path style="fill:var(--stroke-body)" d="M6 86C8 34 56 12 132 10c140-4 300 18 462 46-90 28-258 52-418 60-92 4-152 0-170-30z"/>
+            <path style="fill:var(--stroke-hi)" opacity=".7" filter="url(#strokeStreak)" d="M6 86C8 34 56 12 132 10c140-4 300 18 462 46-90 28-258 52-418 60-92 4-152 0-170-30z"/>
+            <path style="fill:var(--stroke-lo)" opacity=".8" filter="url(#strokeStreak)" transform="translate(0 4)" d="M6 86C8 34 56 12 132 10c140-4 300 18 462 46-90 28-258 52-418 60-92 4-152 0-170-30z"/>
           </g>
         </g>
       </symbol>
     </defs>
   </svg>
   <div class="romance__strokes" aria-hidden="true">
-    <svg style="left:62%;top:1.5%;width:342px;transform:rotate(-24deg);opacity:.95" viewBox="0 0 400 120"><use href="#stroke"/></svg>
-    <svg style="left:6%;top:9%;width:265px;transform:rotate(-28deg);opacity:.95" viewBox="0 0 400 120"><use href="#stroke"/></svg>
-    <svg style="left:88%;top:17%;width:221px;transform:rotate(-22deg);opacity:.95" viewBox="0 0 400 120"><use href="#stroke"/></svg>
-    <svg style="left:2%;top:26%;width:322px;transform:rotate(-28deg);opacity:.95" viewBox="0 0 400 120"><use href="#stroke"/></svg>
-    <svg style="left:80%;top:35%;width:300px;transform:rotate(-22deg);opacity:.95" viewBox="0 0 400 120"><use href="#stroke"/></svg>
-    <svg style="left:44%;top:42%;width:207px;transform:rotate(-22deg);opacity:.95" viewBox="0 0 400 120"><use href="#stroke"/></svg>
-    <svg style="left:4%;top:52%;width:357px;transform:rotate(-22deg);opacity:.95" viewBox="0 0 400 120"><use href="#stroke"/></svg>
-    <svg style="left:86%;top:60%;width:249px;transform:rotate(-24deg);opacity:.95" viewBox="0 0 400 120"><use href="#stroke"/></svg>
-    <svg style="left:28%;top:69%;width:230px;transform:rotate(-34deg);opacity:.95" viewBox="0 0 400 120"><use href="#stroke"/></svg>
-    <svg style="left:90%;top:77%;width:328px;transform:rotate(-26deg);opacity:.95" viewBox="0 0 400 120"><use href="#stroke"/></svg>
-    <svg style="left:6%;top:84%;width:280px;transform:rotate(-30deg);opacity:.95" viewBox="0 0 400 120"><use href="#stroke"/></svg>
-    <svg style="left:60%;top:93%;width:235px;transform:rotate(-22deg);opacity:.95" viewBox="0 0 400 120"><use href="#stroke"/></svg>
+    <svg style="left:62%;top:1.5%;width:547px;transform:rotate(-24deg);opacity:.95" viewBox="0 0 600 130"><use href="#stroke"/></svg>
+    <svg style="left:6%;top:9%;width:424px;transform:rotate(-28deg);opacity:.95" viewBox="0 0 600 130"><use href="#stroke"/></svg>
+    <svg style="left:88%;top:17%;width:354px;transform:rotate(-22deg);opacity:.95" viewBox="0 0 600 130"><use href="#stroke"/></svg>
+    <svg style="left:2%;top:26%;width:515px;transform:rotate(-28deg);opacity:.95" viewBox="0 0 600 130"><use href="#stroke"/></svg>
+    <svg style="left:80%;top:35%;width:480px;transform:rotate(-22deg);opacity:.95" viewBox="0 0 600 130"><use href="#stroke"/></svg>
+    <svg style="left:44%;top:42%;width:331px;transform:rotate(-22deg);opacity:.95" viewBox="0 0 600 130"><use href="#stroke"/></svg>
+    <svg style="left:4%;top:52%;width:571px;transform:rotate(-22deg);opacity:.95" viewBox="0 0 600 130"><use href="#stroke"/></svg>
+    <svg style="left:86%;top:60%;width:398px;transform:rotate(-24deg);opacity:.95" viewBox="0 0 600 130"><use href="#stroke"/></svg>
+    <svg style="left:28%;top:69%;width:368px;transform:rotate(-34deg);opacity:.95" viewBox="0 0 600 130"><use href="#stroke"/></svg>
+    <svg style="left:90%;top:77%;width:525px;transform:rotate(-26deg);opacity:.95" viewBox="0 0 600 130"><use href="#stroke"/></svg>
+    <svg style="left:6%;top:84%;width:448px;transform:rotate(-30deg);opacity:.95" viewBox="0 0 600 130"><use href="#stroke"/></svg>
+    <svg style="left:60%;top:93%;width:376px;transform:rotate(-22deg);opacity:.95" viewBox="0 0 600 130"><use href="#stroke"/></svg>
   </div>
 
   <!-- ============ INTRODUCTION ============ -->
@@ -834,9 +836,9 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
   <!-- ============ A GLIMPSE OF THE WORK ============ -->
   <section class="section section--ink has-strokes" id="work" aria-labelledby="glimpse-title">
     <div class="strokes" aria-hidden="true">
-      <svg style="left:91%;top:4%;width:249px;transform:rotate(-34deg);opacity:.95" viewBox="0 0 400 120"><use href="#stroke"/></svg>
-      <svg style="left:2%;top:46%;width:214px;transform:rotate(-30deg);opacity:.95" viewBox="0 0 400 120"><use href="#stroke"/></svg>
-      <svg style="left:93%;top:93%;width:286px;transform:rotate(-34deg);opacity:.95" viewBox="0 0 400 120"><use href="#stroke"/></svg>
+      <svg style="left:91%;top:4%;width:398px;transform:rotate(-34deg);opacity:.95" viewBox="0 0 600 130"><use href="#stroke"/></svg>
+      <svg style="left:2%;top:46%;width:342px;transform:rotate(-30deg);opacity:.95" viewBox="0 0 600 130"><use href="#stroke"/></svg>
+      <svg style="left:93%;top:93%;width:458px;transform:rotate(-34deg);opacity:.95" viewBox="0 0 600 130"><use href="#stroke"/></svg>
     </div>
     <div class="wrap">
       <div class="glimpse__head">
@@ -858,8 +860,8 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
   <!-- ============ EXPERIENCE ============ -->
   <section class="section section--ink has-strokes" id="experience" aria-labelledby="exp-title">
     <div class="strokes" aria-hidden="true">
-      <svg style="left:86%;top:8%;width:300px;transform:rotate(-28deg);opacity:.95" viewBox="0 0 400 120"><use href="#stroke"/></svg>
-      <svg style="left:3%;top:70%;width:235px;transform:rotate(-26deg);opacity:.95" viewBox="0 0 400 120"><use href="#stroke"/></svg>
+      <svg style="left:86%;top:8%;width:480px;transform:rotate(-28deg);opacity:.95" viewBox="0 0 600 130"><use href="#stroke"/></svg>
+      <svg style="left:3%;top:70%;width:376px;transform:rotate(-26deg);opacity:.95" viewBox="0 0 600 130"><use href="#stroke"/></svg>
     </div>
     <div class="wrap">
       <div class="kicker"><span class="rule"></span><p class="label" style="color:var(--champagne)">Experience</p></div>
@@ -898,8 +900,8 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
   <!-- ============ TESTIMONIALS ============ -->
   <section class="section section--cream tst has-strokes" id="reviews" aria-labelledby="tst-title">
     <div class="strokes" aria-hidden="true">
-      <svg style="left:8%;top:14%;width:256px;transform:rotate(-30deg);opacity:.95" viewBox="0 0 400 120"><use href="#stroke"/></svg>
-      <svg style="left:84%;top:62%;width:315px;transform:rotate(-26deg);opacity:.95" viewBox="0 0 400 120"><use href="#stroke"/></svg>
+      <svg style="left:8%;top:14%;width:410px;transform:rotate(-30deg);opacity:.95" viewBox="0 0 600 130"><use href="#stroke"/></svg>
+      <svg style="left:84%;top:62%;width:504px;transform:rotate(-26deg);opacity:.95" viewBox="0 0 600 130"><use href="#stroke"/></svg>
     </div>
     <div class="wrap">
       <div class="kicker" style="justify-content:center"><span class="rule"></span><p class="label label--muted" id="tst-title">Kind words</p><span class="rule"></span></div>
@@ -915,9 +917,9 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
   <!-- ============ BOOKING ============ -->
   <section class="section section--ink has-strokes" id="book" aria-labelledby="book-title">
     <div class="strokes" aria-hidden="true">
-      <svg style="left:90%;top:3%;width:230px;transform:rotate(-24deg);opacity:.95" viewBox="0 0 400 120"><use href="#stroke"/></svg>
-      <svg style="left:30%;top:90%;width:280px;transform:rotate(-34deg);opacity:.95" viewBox="0 0 400 120"><use href="#stroke"/></svg>
-      <svg style="left:50%;top:95%;width:199px;transform:rotate(-24deg);opacity:.95" viewBox="0 0 400 120"><use href="#stroke"/></svg>
+      <svg style="left:90%;top:3%;width:368px;transform:rotate(-24deg);opacity:.95" viewBox="0 0 600 130"><use href="#stroke"/></svg>
+      <svg style="left:30%;top:90%;width:448px;transform:rotate(-34deg);opacity:.95" viewBox="0 0 600 130"><use href="#stroke"/></svg>
+      <svg style="left:50%;top:95%;width:318px;transform:rotate(-24deg);opacity:.95" viewBox="0 0 600 130"><use href="#stroke"/></svg>
     </div>
     <div class="wrap book__grid">
       <aside class="book__aside">
