@@ -586,6 +586,22 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
 /* reviews sit in the black run from the portfolio preview to booking */
 #reviews .tst__nav button.arrow:hover{background:var(--ivory);color:var(--ink);border-color:var(--ivory)}
 #reviews{background:var(--ink);color:var(--ivory);--taupe:rgba(247,242,235,.62);--charcoal:#efe6da;--stone:rgba(247,242,235,.45);--line:rgba(247,242,235,.16);--line-strong:rgba(247,242,235,.32)}
+/* Portfolio view: same black as "A glimpse of the work" */
+body:has(#main-portfolio:not([hidden])){background:var(--ink)}
+#main-portfolio{background:var(--ink);color:var(--ivory);--taupe:rgba(247,242,235,.62);--charcoal:#24201e;--stone:rgba(247,242,235,.45);--line:rgba(247,242,235,.16);--line-strong:rgba(247,242,235,.32)}
+#main-portfolio .filters{background:rgba(20,17,16,.92)}
+#main-portfolio .filters__list button::after{background:var(--ivory)}
+#main-portfolio .filters__list button:hover,#main-portfolio .filters__list button[aria-pressed="true"]{color:var(--ivory)}
+#main-portfolio .btn--dark{color:var(--ivory)}
+#main-portfolio .btn--dark::before{background:var(--ivory)}
+#main-portfolio .btn--dark:hover{color:var(--ink)}
+#main-portfolio .btn--solid-dark{color:var(--ink);background:var(--ivory);border-color:var(--ivory)}
+#main-portfolio .btn--solid-dark::before{background:var(--champagne)}
+#main-portfolio .btn--solid-dark:hover{color:var(--ink)}
+body:has(#main-portfolio:not([hidden])) .nav.is-solid{background:rgba(20,17,16,.88);color:var(--ivory);border-bottom-color:rgba(247,242,235,.16)}
+body:has(#main-portfolio:not([hidden])) .nav.is-solid .btn{color:var(--ivory)}
+body:has(#main-portfolio:not([hidden])) .nav.is-solid .btn::before{background:var(--ivory)}
+body:has(#main-portfolio:not([hidden])) .nav.is-solid .btn:hover{color:var(--ink)}
 </style>
 <script type="application/ld+json">
 {
