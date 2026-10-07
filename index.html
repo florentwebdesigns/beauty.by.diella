@@ -568,7 +568,10 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
 .romance .btn--solid-dark:hover{color:#2e2515}
 .romance__strokes{position:absolute;inset:0;z-index:0;pointer-events:none}
 .romance__strokes svg{position:absolute;overflow:visible}
-@media (max-width:760px){.romance__strokes svg{opacity:.32}}
+@media (max-width:760px){.romance__strokes svg,.kisses svg{scale:.7}}
+.kisses{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.kisses svg{position:absolute;overflow:visible}
+.has-kisses > .wrap{position:relative;z-index:1}
 
 /* reviews sit in the black run from the portfolio preview to booking */
 #reviews .tst__nav button.arrow:hover{background:var(--ivory);color:var(--ink);border-color:var(--ivory)}
@@ -683,30 +686,48 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
   <div class="romance">
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
     <defs>
-      <filter id="kissTex" x="-10%" y="-20%" width="120%" height="140%">
-        <feTurbulence type="fractalNoise" baseFrequency="0.55 0.045" numOctaves="2" seed="11" result="creases"/>
-        <feColorMatrix in="creases" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 3.2 -1.05" result="creaseAlpha"/>
-        <feComposite in="SourceGraphic" in2="creaseAlpha" operator="in" result="pressed"/>
-        <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" seed="4" result="edge"/>
-        <feDisplacementMap in="pressed" in2="edge" scale="7" xChannelSelector="R" yChannelSelector="G"/>
+      <linearGradient id="kissRed" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#951a2d"/>
+        <stop offset=".55" stop-color="#7e1224"/>
+        <stop offset="1" stop-color="#620d1b"/>
+      </linearGradient>
+      <filter id="kissEdge" x="-10%" y="-20%" width="120%" height="140%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.09" numOctaves="2" seed="4" result="edge"/>
+        <feDisplacementMap in="SourceGraphic" in2="edge" scale="5" xChannelSelector="R" yChannelSelector="G" result="rough"/>
+        <feTurbulence type="fractalNoise" baseFrequency="0.4 0.02" numOctaves="1" seed="9" result="pores"/>
+        <feColorMatrix in="pores" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 6 -1.2" result="poreAlpha"/>
+        <feComposite in="rough" in2="poreAlpha" operator="in"/>
+      </filter>
+      <filter id="kissCrease" x="-10%" y="-20%" width="120%" height="140%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.32 0.012" numOctaves="2" seed="21" result="streaks"/>
+        <feColorMatrix in="streaks" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 9 -5.6" result="streakAlpha"/>
+        <feComposite in="SourceGraphic" in2="streakAlpha" operator="in"/>
       </filter>
       <symbol id="kiss" viewBox="0 0 200 110">
-        <g filter="url(#kissTex)" fill="#c3152f">
-          <path d="M10 52C30 30 55 14 78 18c10 2 17 10 22 14 5-4 12-12 22-14 23-4 48 12 68 34-30-2-60-4-90 2-30-6-60-4-90-2z"/>
-          <path d="M14 58c31-2 58 0 86 4 28-4 55-6 86-4-21 28-51 42-86 42S35 86 14 58z"/>
+        <g filter="url(#kissEdge)" fill="url(#kissRed)">
+          <path d="M6 56C22 44 44 26 66 20c13-4 24 2 30 10l4 5 4-5c6-8 17-14 30-10 22 6 44 24 60 36-10 2-24 0-36-2-12-2-22-1-30 2-10 3-18 2-28 1-10 1-18 2-28-1-8-3-18-4-30-2-12 2-26 4-30 2z"/>
+          <path d="M14 64c14-1 28-1 42 1 10 1 18 0 26-1 6-1 12-1 18 1 6-2 12-2 18-1 8 1 16 2 26 1 14-2 28-2 42-1-10 16-28 30-52 34-12 2-22 3-34 3s-22-1-34-3C42 94 24 80 14 64z"/>
+        </g>
+        <g filter="url(#kissCrease)" fill="#f6dcdc" opacity=".85">
+          <path d="M14 52C30 40 48 28 66 24c12-3 22 2 28 9l6 6 6-6c6-7 16-12 28-9 18 4 36 16 52 28-26-2-52-2-86 2-34-4-60-4-86-2z"/>
+          <path d="M22 68c40-2 116-2 156 0-12 14-30 26-54 29-16 2-32 2-48 0C52 94 34 82 22 68z"/>
         </g>
       </symbol>
     </defs>
   </svg>
   <div class="romance__strokes" aria-hidden="true">
-    <svg style="left:62%;top:2%;width:96px;transform:rotate(-12deg);opacity:0.82" viewBox="0 0 200 110"><use href="#kiss"/></svg>
-    <svg style="left:6%;top:15%;width:80px;transform:rotate(14deg);opacity:0.7" viewBox="0 0 200 110"><use href="#kiss"/></svg>
-    <svg style="left:84%;top:31%;width:70px;transform:rotate(-24deg);opacity:0.75" viewBox="0 0 200 110"><use href="#kiss"/></svg>
-    <svg style="left:3%;top:47%;width:104px;transform:rotate(8deg);opacity:0.7" viewBox="0 0 200 110"><use href="#kiss"/></svg>
-    <svg style="left:78%;top:61%;width:86px;transform:rotate(18deg);opacity:0.78" viewBox="0 0 200 110"><use href="#kiss"/></svg>
-    <svg style="left:30%;top:75%;width:64px;transform:rotate(-20deg);opacity:0.72" viewBox="0 0 200 110"><use href="#kiss"/></svg>
-    <svg style="left:88%;top:87%;width:92px;transform:rotate(-8deg);opacity:0.8" viewBox="0 0 200 110"><use href="#kiss"/></svg>
-    <svg style="left:8%;top:93%;width:74px;transform:rotate(22deg);opacity:0.7" viewBox="0 0 200 110"><use href="#kiss"/></svg>
+    <svg style="left:62%;top:1.5%;width:96px;transform:rotate(-12deg);opacity:0.9" viewBox="0 0 200 110"><use href="#kiss"/></svg>
+    <svg style="left:6%;top:9%;width:74px;transform:rotate(14deg);opacity:0.85" viewBox="0 0 200 110"><use href="#kiss"/></svg>
+    <svg style="left:88%;top:17%;width:62px;transform:rotate(-24deg);opacity:0.85" viewBox="0 0 200 110"><use href="#kiss"/></svg>
+    <svg style="left:2%;top:26%;width:90px;transform:rotate(8deg);opacity:0.85" viewBox="0 0 200 110"><use href="#kiss"/></svg>
+    <svg style="left:80%;top:35%;width:84px;transform:rotate(18deg);opacity:0.9" viewBox="0 0 200 110"><use href="#kiss"/></svg>
+    <svg style="left:44%;top:42%;width:58px;transform:rotate(-16deg);opacity:0.8" viewBox="0 0 200 110"><use href="#kiss"/></svg>
+    <svg style="left:4%;top:52%;width:100px;transform:rotate(-6deg);opacity:0.85" viewBox="0 0 200 110"><use href="#kiss"/></svg>
+    <svg style="left:86%;top:60%;width:70px;transform:rotate(10deg);opacity:0.85" viewBox="0 0 200 110"><use href="#kiss"/></svg>
+    <svg style="left:28%;top:69%;width:64px;transform:rotate(-20deg);opacity:0.8" viewBox="0 0 200 110"><use href="#kiss"/></svg>
+    <svg style="left:90%;top:77%;width:92px;transform:rotate(-8deg);opacity:0.9" viewBox="0 0 200 110"><use href="#kiss"/></svg>
+    <svg style="left:6%;top:84%;width:78px;transform:rotate(22deg);opacity:0.85" viewBox="0 0 200 110"><use href="#kiss"/></svg>
+    <svg style="left:60%;top:93%;width:66px;transform:rotate(-14deg);opacity:0.85" viewBox="0 0 200 110"><use href="#kiss"/></svg>
   </div>
 
   <!-- ============ INTRODUCTION ============ -->
@@ -805,7 +826,12 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
   </div>
 
   <!-- ============ A GLIMPSE OF THE WORK ============ -->
-  <section class="section section--ink" id="work" aria-labelledby="glimpse-title">
+  <section class="section section--ink has-kisses" id="work" aria-labelledby="glimpse-title">
+    <div class="kisses" aria-hidden="true">
+      <svg style="left:91%;top:4%;width:70px;transform:rotate(16deg);opacity:0.85" viewBox="0 0 200 110"><use href="#kiss"/></svg>
+      <svg style="left:2%;top:46%;width:60px;transform:rotate(-18deg);opacity:0.75" viewBox="0 0 200 110"><use href="#kiss"/></svg>
+      <svg style="left:93%;top:93%;width:80px;transform:rotate(-10deg);opacity:0.85" viewBox="0 0 200 110"><use href="#kiss"/></svg>
+    </div>
     <div class="wrap">
       <div class="glimpse__head">
         <div>
@@ -824,7 +850,11 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
   </section>
 
   <!-- ============ EXPERIENCE ============ -->
-  <section class="section section--ink" id="experience" aria-labelledby="exp-title">
+  <section class="section section--ink has-kisses" id="experience" aria-labelledby="exp-title">
+    <div class="kisses" aria-hidden="true">
+      <svg style="left:86%;top:8%;width:84px;transform:rotate(-14deg);opacity:0.85" viewBox="0 0 200 110"><use href="#kiss"/></svg>
+      <svg style="left:3%;top:70%;width:66px;transform:rotate(20deg);opacity:0.8" viewBox="0 0 200 110"><use href="#kiss"/></svg>
+    </div>
     <div class="wrap">
       <div class="kicker"><span class="rule"></span><p class="label" style="color:var(--champagne)">Experience</p></div>
       <h2 class="display exp__title" id="exp-title" style="margin-top:26px" data-reveal>From bridal chairs <em>to the studio</em></h2>
@@ -860,7 +890,11 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
   </section>
 
   <!-- ============ TESTIMONIALS ============ -->
-  <section class="section section--cream tst" id="reviews" aria-labelledby="tst-title">
+  <section class="section section--cream tst has-kisses" id="reviews" aria-labelledby="tst-title">
+    <div class="kisses" aria-hidden="true">
+      <svg style="left:8%;top:14%;width:72px;transform:rotate(-10deg);opacity:0.85" viewBox="0 0 200 110"><use href="#kiss"/></svg>
+      <svg style="left:84%;top:62%;width:88px;transform:rotate(14deg);opacity:0.85" viewBox="0 0 200 110"><use href="#kiss"/></svg>
+    </div>
     <div class="wrap">
       <div class="kicker" style="justify-content:center"><span class="rule"></span><p class="label label--muted" id="tst-title">Kind words</p><span class="rule"></span></div>
       <div class="tst__stage" id="tstStage" aria-live="polite"></div>
@@ -873,7 +907,12 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
   </section>
 
   <!-- ============ BOOKING ============ -->
-  <section class="section section--ink" id="book" aria-labelledby="book-title">
+  <section class="section section--ink has-kisses" id="book" aria-labelledby="book-title">
+    <div class="kisses" aria-hidden="true">
+      <svg style="left:90%;top:3%;width:64px;transform:rotate(22deg);opacity:0.8" viewBox="0 0 200 110"><use href="#kiss"/></svg>
+      <svg style="left:30%;top:90%;width:78px;transform:rotate(-12deg);opacity:0.85" viewBox="0 0 200 110"><use href="#kiss"/></svg>
+      <svg style="left:50%;top:95%;width:56px;transform:rotate(8deg);opacity:0.75" viewBox="0 0 200 110"><use href="#kiss"/></svg>
+    </div>
     <div class="wrap book__grid">
       <aside class="book__aside">
         <div class="kicker"><span class="rule"></span><p class="label" style="color:var(--champagne)">Book now</p></div>
