@@ -326,6 +326,7 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
 .contact-card > div{padding:20px 0;border-bottom:1px solid var(--line-light);display:grid;gap:6px}
 .contact-card .label{color:var(--champagne);font-size:10px}
 .contact-card .v{font-family:var(--serif);font-size:clamp(21px,1.7vw,26px);line-height:1.3;overflow-wrap:anywhere}
+.contact-card .verified{width:.8em;height:.8em;margin-left:.3em;vertical-align:-.06em;display:inline-block}
 .contact-card .v a{border-bottom:1px solid rgba(247,242,235,.3);transition:border-color .3s}
 .contact-card .v a:hover{border-color:var(--ivory)}
 .contact-actions{display:flex;flex-wrap:wrap;gap:12px}
@@ -613,6 +614,7 @@ body:has(#main-portfolio:not([hidden])) .nav.is-solid .btn:hover{color:var(--ink
   "description": "Professional makeup artist for bridal, weddings, special events, photoshoots and editorial work in New Jersey and New York City.",
   "email": "diellaborici@gmail.com",
   "telephone": "+1-973-380-2511",
+  "sameAs": ["https://www.instagram.com/beautybydiella/"],
   "founder": { "@type": "Person", "name": "Diella Borici", "jobTitle": "Makeup Artist" },
   "address": { "@type": "PostalAddress", "addressLocality": "Springfield", "addressRegion": "NJ", "addressCountry": "US" },
   "areaServed": [
@@ -964,11 +966,13 @@ body:has(#main-portfolio:not([hidden])) .nav.is-solid .btn:hover{color:var(--ink
           <div><span class="label">Based in</span><span class="v">Springfield, NJ</span></div>
           <div><span class="label">Serving</span><span class="v">NJ + NYC</span></div>
           <div><span class="label">Email</span><span class="v"><a data-site="email-link" href="mailto:diellaborici@gmail.com">diellaborici@gmail.com</a></span></div>
+          <div data-site="instagram-item"><span class="label">Instagram</span><span class="v"><a data-site="instagram" href="https://www.instagram.com/beautybydiella/" target="_blank" rel="noopener">@beautybydiella</a><svg class="verified" viewBox="0 0 40 40" role="img" aria-label="Verified account"><path fill="#0095f6" d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Z"/><path fill="#fff" d="m27.65 13.6-9.82 9.81-5.47-5.47-2.65 2.65 8.12 8.12 12.47-12.46z"/></svg></span></div>
           <div data-site="phone-item"><span class="label">Text</span><span class="v"><a data-site="phone-link" href="sms:+19733802511">(973) 380-2511</a></span></div>
         </div>
         <div class="contact-actions" data-reveal>
           <a class="btn btn--light" data-site="phone-link" href="sms:+19733802511">Text Diella</a>
           <a class="btn btn--light" data-site="email-link" href="mailto:diellaborici@gmail.com">Email Diella</a>
+          <a class="btn btn--light" data-site="instagram" href="https://www.instagram.com/beautybydiella/" target="_blank" rel="noopener">Instagram</a>
           <button class="copy-btn" type="button" id="copyEmail">Copy email</button>
         </div>
       </aside>
@@ -1031,7 +1035,7 @@ body:has(#main-portfolio:not([hidden])) .nav.is-solid .btn:hover{color:var(--ink
           <textarea id="f-msg" name="message" rows="4" placeholder="Tell Diella about the look, the timeline and anything else she should know."></textarea>
         </div>
         <div class="form__foot">
-          <small>Sending opens your email app with your details filled in, addressed to Diella.</small>
+          <small>Sending opens a text to Diella with your details filled in. Just press send.</small>
           <button class="btn btn--solid-light" type="submit">Send inquiry
             <svg class="arr" viewBox="0 0 18 8" fill="none" stroke="currentColor" aria-hidden="true"><path d="M0 4h17M13.5.5 17 4l-3.5 3.5"/></svg></button>
         </div>
@@ -1182,7 +1186,7 @@ window.SITE = {
 
   // Paste the full Instagram URL, e.g. "https://www.instagram.com/yourhandle/".
   // Leave empty ("") to hide the Instagram link.
-  instagram: "",
+  instagram: "https://www.instagram.com/beautybydiella/",
 
   region: "NJ + NYC",
 
