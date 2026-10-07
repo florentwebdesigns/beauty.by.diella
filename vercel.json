@@ -1,0 +1,5 @@
+{
+  "redirects": [
+    { "source": "/book", "destination": "/#book", "permanent": false }
+  ]
+}
