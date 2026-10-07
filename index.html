@@ -1176,6 +1176,10 @@ window.SITE = {
   // Leave empty ("") to keep them going to the booking form.
   phone: "+1 (973) 380-2511",
 
+  // Google Sheets inquiry log: paste the Apps Script web app URL (see docs/inquiry-log.gs).
+  // Every "Send inquiry" is saved as a row in the sheet. Leave empty ("") to turn logging off.
+  inquiryLog: "",
+
   // Paste the full Instagram URL, e.g. "https://www.instagram.com/yourhandle/".
   // Leave empty ("") to hide the Instagram link.
   instagram: "",
@@ -1991,6 +1995,15 @@ window.PORTFOLIO = [
     var href = canText
       ? "sms:" + phone + "?&body=" + encodeURIComponent(lines.join("\n"))
       : "mailto:" + email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(lines.join("\n"));
+    if (SITE.inquiryLog) {
+      try {
+        fetch(SITE.inquiryLog, { method: "POST", mode: "no-cors", keepalive: true, body: new URLSearchParams({
+          name: v("name"), email: v("email"), phone: v("phone"), type: v("type"), date: niceDate,
+          location: v("location"), people: v("people"), services: services.join(", "), msg: v("msg"),
+          via: canText ? "Text" : "Email", page: location.href
+        }) });
+      } catch (err) {}
+    }
     window.location.href = href;
     if (canText) $("#doneText").innerHTML = "Your Messages app should have opened with everything filled in. Press send there to text Diella. If it didn't open, text her at <a href=\"sms:" + phone + "\" style=\"border-bottom:1px solid currentColor\">" + SITE.phone.replace(/^\+1\s*/, "") + "</a>.";
     $("#doneTitle").textContent = "Thank you, " + v("name").split(" ")[0] + ". Your inquiry is ready to send.";
