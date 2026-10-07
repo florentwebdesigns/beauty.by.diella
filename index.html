@@ -552,23 +552,27 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
    sections, with soft makeup brush strokes scattered along it. */
 .romance{position:relative;isolation:isolate;overflow:hidden;color:var(--ivory);
   background:
-    radial-gradient(60% 40% at 85% 8%,rgba(156,62,74,.38),transparent 70%),
-    radial-gradient(55% 35% at 8% 42%,rgba(120,38,52,.42),transparent 72%),
-    radial-gradient(60% 38% at 92% 78%,rgba(142,58,66,.32),transparent 70%),
-    linear-gradient(180deg,#2a0d13 0%,#3d1119 22%,#4a1520 45%,#3a1018 70%,#240a10 100%);
+    radial-gradient(60% 30% at 85% 6%,rgba(120,92,52,.22),transparent 70%),
+    radial-gradient(55% 28% at 8% 40%,rgba(98,74,40,.24),transparent 72%),
+    radial-gradient(60% 30% at 92% 72%,rgba(110,84,48,.18),transparent 70%),
+    linear-gradient(180deg,#2e2515 0%,#2e2515 86%,#141110 100%);
   --taupe:rgba(247,235,230,.66);--charcoal:#f4e4df;--stone:rgba(247,235,230,.5);
-  --line:rgba(247,235,230,.16);--line-strong:rgba(247,235,230,.32);--cream:#3a141b}
+  --line:rgba(247,235,230,.16);--line-strong:rgba(247,235,230,.32);--cream:#3a2f1d}
 .romance > .section,.romance > .section--cream{background:transparent;position:relative;z-index:1}
-.romance .intro__head .accent{color:#e6b7ad}
+.romance .intro__head .accent{color:#e2c9a4}
 .romance .btn--dark{color:var(--ivory)}
 .romance .btn--dark::before{background:var(--ivory)}
-.romance .btn--dark:hover{color:#3a1018}
-.romance .btn--solid-dark{color:#3a1018;background:var(--ivory);border-color:var(--ivory)}
+.romance .btn--dark:hover{color:#2e2515}
+.romance .btn--solid-dark{color:#2e2515;background:var(--ivory);border-color:var(--ivory)}
 .romance .btn--solid-dark::before{background:var(--champagne)}
-.romance .btn--solid-dark:hover{color:#3a1018}
+.romance .btn--solid-dark:hover{color:#2e2515}
 .romance__strokes{position:absolute;inset:0;z-index:0;pointer-events:none}
 .romance__strokes svg{position:absolute;overflow:visible;mix-blend-mode:screen}
 @media (max-width:760px){.romance__strokes svg{opacity:.32}}
+
+/* reviews sit in the black run from the portfolio preview to booking */
+#reviews .tst__nav button.arrow:hover{background:var(--ivory);color:var(--ink);border-color:var(--ivory)}
+#reviews{background:var(--ink);color:var(--ivory);--taupe:rgba(247,242,235,.62);--charcoal:#efe6da;--stone:rgba(247,242,235,.45);--line:rgba(247,242,235,.16);--line-strong:rgba(247,242,235,.32)}
 </style>
 <script type="application/ld+json">
 {
@@ -680,10 +684,10 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
     <defs>
       <linearGradient id="brushGrad" x1="0" x2="1" y1="0" y2="0">
-        <stop offset="0" stop-color="#e9c2b4" stop-opacity="0"/>
-        <stop offset=".18" stop-color="#e9c2b4" stop-opacity=".85"/>
-        <stop offset=".6" stop-color="#d9a08f" stop-opacity=".7"/>
-        <stop offset="1" stop-color="#f2d9c4" stop-opacity="0"/>
+        <stop offset="0" stop-color="#ead2b0" stop-opacity="0"/>
+        <stop offset=".18" stop-color="#ead2b0" stop-opacity=".85"/>
+        <stop offset=".6" stop-color="#c9a374" stop-opacity=".7"/>
+        <stop offset="1" stop-color="#f3e2c8" stop-opacity="0"/>
       </linearGradient>
       <filter id="brushTex" x="-10%" y="-40%" width="120%" height="180%">
         <feTurbulence type="fractalNoise" baseFrequency="0.003 0.32" numOctaves="2" seed="7" result="streaks"/>
@@ -823,7 +827,7 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
   </section>
 
   <!-- ============ EXPERIENCE ============ -->
-  <section class="section section--ink" id="experience" aria-labelledby="exp-title" style="background:var(--charcoal)">
+  <section class="section section--ink" id="experience" aria-labelledby="exp-title">
     <div class="wrap">
       <div class="kicker"><span class="rule"></span><p class="label" style="color:var(--champagne)">Experience</p></div>
       <h2 class="display exp__title" id="exp-title" style="margin-top:26px" data-reveal>From bridal chairs <em>to the studio</em></h2>
