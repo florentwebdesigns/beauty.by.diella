@@ -1033,7 +1033,7 @@ body:has(#main-portfolio:not([hidden])) .nav.is-solid .btn:hover{color:var(--ink
         </div>
         <div class="form__done" id="formDone" hidden tabindex="-1">
           <h3 id="doneTitle">Your inquiry is ready to send.</h3>
-          <p>Your email app should have opened with everything filled in. Press send there to reach Diella. If it didn't open, email <a data-site="email-link" href="mailto:diellaborici@gmail.com" style="border-bottom:1px solid currentColor">diellaborici@gmail.com</a> directly.</p>
+          <p id="doneText">Your email app should have opened with everything filled in. Press send there to reach Diella. If it didn't open, email <a data-site="email-link" href="mailto:diellaborici@gmail.com" style="border-bottom:1px solid currentColor">diellaborici@gmail.com</a> directly.</p>
           <div><button class="copy-btn" type="button" id="formAgain">Edit inquiry</button></div>
         </div>
       </form>
@@ -1647,10 +1647,6 @@ window.PORTFOLIO = [
     var smsBody = "Hi Diella! I found you on your website and I'd love to book makeup. ";
     var smsHref = "sms:" + phone + "?&body=" + encodeURIComponent(smsBody);
     $$('[data-site="phone-link"]').forEach(function (el) { el.href = smsHref; });
-    // Phones: booking buttons open a ready-to-send text. Desktop keeps the booking form.
-    if (window.matchMedia && matchMedia("(hover: none) and (pointer: coarse)").matches) {
-      $$('a.btn[href="#book"], a[data-book]').forEach(function (el) { el.href = smsHref; });
-    }
   } else $$('[data-site="phone-item"], [data-site="phone-link"]').forEach(function (el) { el.hidden = true; });
   if (SITE.instagram) $$('[data-site="instagram"]').forEach(function (el) { el.href = SITE.instagram; });
   else $$('[data-site="instagram-item"]').forEach(function (el) { el.hidden = true; });
@@ -1986,8 +1982,13 @@ window.PORTFOLIO = [
       services.length ? "Services needed: " + services.join(", ") : null,
       "", v("msg") ? "Details:\n" + v("msg") : null
     ].filter(function (l) { return l !== null; });
-    var href = "mailto:" + email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(lines.join("\n"));
+    // Phones, tablets and Macs open Messages with the inquiry written out; other computers fall back to email.
+    var canText = phone && ((window.matchMedia && matchMedia("(pointer: coarse)").matches) || /Mac|iPhone|iPad|Android/i.test(navigator.userAgent));
+    var href = canText
+      ? "sms:" + phone + "?&body=" + encodeURIComponent(lines.join("\n"))
+      : "mailto:" + email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(lines.join("\n"));
     window.location.href = href;
+    if (canText) $("#doneText").innerHTML = "Your Messages app should have opened with everything filled in. Press send there to text Diella. If it didn't open, text her at <a href=\"sms:" + phone + "\" style=\"border-bottom:1px solid currentColor\">" + SITE.phone.replace(/^\+1\s*/, "") + "</a>.";
     $("#doneTitle").textContent = "Thank you, " + v("name").split(" ")[0] + ". Your inquiry is ready to send.";
     $("#formDone").hidden = false;
     $("#formDone").focus();
