@@ -570,7 +570,7 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
 /* stationary backdrop: a hero-style brush swatch that stays put while the band scrolls over it */
 .romance{background:var(--ink)}
 .romance__bg{position:absolute;inset:0;z-index:-1;clip-path:inset(0);pointer-events:none}
-.romance__bg img{position:fixed;inset:0;width:100%;height:100%;max-width:none;object-fit:cover}
+.romance__bg canvas{position:fixed;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;transform:scaleX(-1)}
 .romance__bg::after{content:"";position:absolute;inset:0;background:
   linear-gradient(180deg,rgba(20,17,16,.55) 0%,rgba(20,17,16,.3) 14%,rgba(20,17,16,.3) 80%,#141110 100%),
   linear-gradient(90deg,rgba(28,18,14,.4),rgba(28,18,14,0) 60%)}
@@ -656,7 +656,7 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
   <!-- ============ HERO ============ -->
   <section class="hero" id="home" aria-label="Introduction">
     <div class="hero__media" aria-hidden="true">
-      <img class="hero__plate" id="heroPlate" alt="">
+      <canvas class="hero__plate" id="heroPlate"></canvas>
       <div class="hero__light"></div>
       <!-- HERO VIDEO
            Add  videos/beauty-hero.mp4  (and optionally beauty-hero.webm,
@@ -693,7 +693,7 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
   </section>
 
   <div class="romance">
-  <div class="romance__bg" aria-hidden="true"><img id="romanceBg" alt=""></div>
+  <div class="romance__bg" aria-hidden="true"><canvas id="romanceBg"></canvas></div>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
     <defs>
       <linearGradient id="strokeFade" x1="0" x2="1" y1="0" y2="0">
@@ -1408,6 +1408,145 @@ window.PORTFOLIO = [
   }
 
   /* -------------------------------------------------------------------
+     LIVE PLATE: the hero-style brush swatch drawn on a canvas, with the
+     bristle lines drifting and the shimmer specks twinkling. Static backdrop
+     is painted once; only lines and specks are redrawn (~30fps), and only
+     while the canvas is on screen.
+     ------------------------------------------------------------------- */
+  function livePlate(cv, host, key, variant, w, h) {
+    if (!cv || !cv.getContext) return;
+    var P = PAL[key] || PAL.beauty;
+    var r = rng(hashStr(key) + variant * 7919 + 11);
+    cv.width = w; cv.height = h;
+    var c = cv.getContext("2d");
+    var m = Math.min(w, h), M = Math.max(w, h);
+    var small = m < 1000 && w < h;
+
+    // geometry
+    var v = variant % 3, p0, p3;
+    if (v === 0) { p0 = [w * (0.04 + r() * 0.1), h * (0.66 + r() * 0.12)]; p3 = [w * (0.9 + r() * 0.08), h * (0.24 + r() * 0.14)]; }
+    else if (v === 1) { p0 = [w * (0.02 + r() * 0.08), h * (0.4 + r() * 0.12)]; p3 = [w * (0.94 + r() * 0.05), h * (0.52 + r() * 0.12)]; }
+    else { p0 = [w * (0.12 + r() * 0.1), h * (0.18 + r() * 0.1)]; p3 = [w * (0.82 + r() * 0.1), h * (0.8 + r() * 0.1)]; }
+    var p1 = [p0[0] + (p3[0] - p0[0]) * (0.25 + r() * 0.15), p0[1] + (r() - 0.5) * h * 0.35];
+    var p2 = [p0[0] + (p3[0] - p0[0]) * (0.62 + r() * 0.15), p3[1] + (r() - 0.5) * h * 0.35];
+    var path = [p0, p1, p2, p3];
+    var dx = p3[0] - p0[0], dy = p3[1] - p0[1], L = Math.hypot(dx, dy) || 1;
+    var nx = -dy / L, ny = dx / L;
+    var T = m * 0.3;
+
+    // static base: backdrop, glow, soft body, grain
+    var base = document.createElement("canvas");
+    base.width = w; base.height = h;
+    var b = base.getContext("2d");
+    var g = b.createLinearGradient(0, 0, w * 0.3, h);
+    g.addColorStop(0, P.bg[0]); g.addColorStop(1, P.bg[1]);
+    b.fillStyle = g; b.fillRect(0, 0, w, h);
+    var lx = w * (0.2 + r() * 0.6), ly = h * (0.1 + r() * 0.3);
+    var rg = b.createRadialGradient(lx, ly, 0, lx, ly, M * 0.85);
+    rg.addColorStop(0, "rgba(255,236,214,.13)"); rg.addColorStop(1, "rgba(255,255,255,0)");
+    b.fillStyle = rg; b.fillRect(0, 0, w, h);
+    b.save();
+    b.shadowColor = hexA(P.sw[0], 0.55); b.shadowBlur = T * 0.35;
+    b.strokeStyle = hexA(P.sw[1], 0.5); b.lineWidth = T * 0.6; b.lineCap = "butt";
+    b.beginPath();
+    for (var i0 = 0; i0 <= 60; i0++) { var q0 = bez(path, 0.13 + 0.74 * (i0 / 60)); if (i0) b.lineTo(q0[0], q0[1]); else b.moveTo(q0[0], q0[1]); }
+    b.stroke(); b.restore();
+    try {
+      var img = b.getImageData(0, 0, w, h), px = img.data;
+      for (var j = 0; j < px.length; j += 4) { var n = (r() - 0.5) * 9; px[j] += n; px[j + 1] += n; px[j + 2] += n; }
+      b.putImageData(img, 0, 0);
+    } catch (e) { /* ignore */ }
+
+    // bristles
+    var N = small ? 110 : 160, SEG = small ? 24 : 32, bristles = [];
+    for (var i = 0; i < N; i++) {
+      var f = i / (N - 1), edge = Math.abs(f - 0.5) * 2;
+      bristles.push({
+        off: (f - 0.5) * T * (0.95 + r() * 0.1), f: f,
+        col: hexA(P.sw[Math.floor(r() * P.sw.length)], (0.06 + r() * 0.12) * (1 - edge * 0.55)),
+        lw: 1 + r() * (m / 120),
+        t0: r() * 0.12 * (0.4 + edge), t1: 1 - r() * 0.16 * (0.4 + edge),
+        jx: (r() - 0.5) * T * 0.06, jy: (r() - 0.5) * T * 0.06,
+        ph: r() * 6.283, amp: T * (0.015 + r() * 0.03)
+      });
+    }
+    var sheen = [];
+    for (var k = 0; k < 18; k++) sheen.push({ off: -T * (0.12 + r() * 0.25), a: 0.04 + r() * 0.08, lw: 1 + r() * 2, ph: r() * 6.283 });
+    // specks
+    var specks = [], count = Math.round((w * h) / 2400);
+    for (var d = 0; d < count; d++) {
+      var near = r() < 0.75, sx, sy;
+      if (near) { var bp = bez(path, r()), bo = (r() - 0.5) * T * 1.3; sx = bp[0] + nx * bo; sy = bp[1] + ny * bo; }
+      else { sx = r() * w; sy = r() * h; }
+      specks.push({ x: sx, y: sy, col: r() < 0.6 ? P.sh : P.sw[0], a: (near ? 0.25 : 0.12) + r() * 0.5,
+        rad: (0.3 + r() * 1.1) * (m / 520), ph: r() * 6.283, sp: 0.6 + r() * 2.2, star: r() < 0.06 });
+    }
+    // precomputed path samples
+    var samples = [];
+    for (var s0 = 0; s0 <= 200; s0++) samples.push(bez(path, s0 / 200));
+    function at(t) { var x = t * 200, i1 = Math.min(199, Math.floor(x)), u = x - i1, a = samples[i1], z = samples[i1 + 1]; return [a[0] + (z[0] - a[0]) * u, a[1] + (z[1] - a[1]) * u]; }
+
+    function draw(time) {
+      var tm = time / 1000;
+      c.globalCompositeOperation = "source-over";
+      c.drawImage(base, 0, 0);
+      c.lineCap = "round"; c.lineJoin = "round";
+      for (var i = 0; i < bristles.length; i++) {
+        var br = bristles[i];
+        c.strokeStyle = br.col; c.lineWidth = br.lw;
+        c.beginPath();
+        for (var s = 0; s <= SEG; s++) {
+          var t = br.t0 + (br.t1 - br.t0) * (s / SEG), pt = at(t);
+          var wob = Math.sin(t * 9 + i) * T * 0.012 + Math.sin(t * 5.5 - tm * 0.9 + br.ph + br.f * 2.4) * br.amp;
+          var x = pt[0] + nx * (br.off + wob) + br.jx, y = pt[1] + ny * (br.off + wob) + br.jy;
+          if (s === 0) c.moveTo(x, y); else c.lineTo(x, y);
+        }
+        c.stroke();
+      }
+      for (var k = 0; k < sheen.length; k++) {
+        var sh = sheen[k];
+        c.strokeStyle = "rgba(255,248,240," + (sh.a * (0.6 + 0.4 * Math.sin(tm * 0.8 + sh.ph))) + ")";
+        c.lineWidth = sh.lw;
+        c.beginPath();
+        for (var s2 = 0; s2 <= SEG; s2++) {
+          var tt = 0.08 + 0.84 * (s2 / SEG), q = at(tt);
+          var o = sh.off + Math.sin(tt * 5.5 - tm * 0.9 + sh.ph) * T * 0.025;
+          if (s2 === 0) c.moveTo(q[0] + nx * o, q[1] + ny * o); else c.lineTo(q[0] + nx * o, q[1] + ny * o);
+        }
+        c.stroke();
+      }
+      c.globalCompositeOperation = "lighter";
+      for (var d = 0; d < specks.length; d++) {
+        var sp = specks[d], tw = 0.5 + 0.5 * Math.sin(tm * sp.sp + sp.ph), a = sp.a * (0.15 + 0.85 * tw * tw);
+        c.fillStyle = hexA(sp.col, a);
+        if (sp.rad < 1.6) c.fillRect(sp.x - sp.rad, sp.y - sp.rad, sp.rad * 2, sp.rad * 2);
+        else { c.beginPath(); c.arc(sp.x, sp.y, sp.rad, 0, 6.283); c.fill(); }
+        if (sp.star && tw > 0.7) {
+          var len = sp.rad * 7 * (tw - 0.7) / 0.3;
+          c.strokeStyle = hexA(sp.col, a * 0.8); c.lineWidth = sp.rad * 0.5;
+          c.beginPath(); c.moveTo(sp.x - len, sp.y); c.lineTo(sp.x + len, sp.y); c.moveTo(sp.x, sp.y - len); c.lineTo(sp.x, sp.y + len); c.stroke();
+        }
+      }
+      c.globalCompositeOperation = "source-over";
+    }
+
+    draw(0);
+    if (reduced) return;
+    var visible = false, raf = 0, last = 0;
+    function loop(time) {
+      raf = 0;
+      if (!visible || document.hidden) return;
+      if (time - last >= 33) { last = time; draw(time); }
+      raf = requestAnimationFrame(loop);
+    }
+    function kick() { if (!raf && visible && !document.hidden) raf = requestAnimationFrame(loop); }
+    if ("IntersectionObserver" in window && host) {
+      new IntersectionObserver(function (en) { visible = en[0].isIntersecting; kick(); }).observe(host);
+    } else { visible = true; kick(); }
+    document.addEventListener("visibilitychange", kick);
+  }
+
+  /* -------------------------------------------------------------------
      FRAMES: a placeholder plate, replaced by the real photo when it exists
      ------------------------------------------------------------------- */
   var plateQueue = [];
@@ -1484,9 +1623,9 @@ window.PORTFOLIO = [
   var hero = $("#home"), video = $("#heroVideo");
   (function () {
     var portrait = window.innerHeight > window.innerWidth;
-    $("#heroPlate").src = portrait ? makePlate("hero", 0, 900, 1400) : makePlate("hero", 0, 1700, 1050);
-    var romanceBg = $("#romanceBg");
-    if (romanceBg) romanceBg.src = portrait ? makePlate("hero", 2, 900, 1400) : makePlate("hero", 2, 1700, 1050);
+    var pw = portrait ? 900 : 1700, ph = portrait ? 1400 : 1050;
+    livePlate($("#heroPlate"), $("#home"), "hero", 0, pw, ph);
+    livePlate($("#romanceBg"), $(".romance"), "hero", 2, pw, ph);
     var fp = $("#finalPlate");
     fp.src = makePlate("glam", 2, 1500, 1000);
   })();
