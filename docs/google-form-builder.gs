@@ -36,7 +36,9 @@ function createBookingForm() {
 
   ScriptApp.newTrigger("emailDiella").forForm(form).onFormSubmit().create();
 
-  Logger.log("Instagram link: " + form.shortenFormUrl(form.getPublishedUrl()));
+  var link = form.getPublishedUrl();
+  try { link = form.shortenFormUrl(link); } catch (err) {}
+  Logger.log("Instagram link: " + link);
   Logger.log("Edit the form: " + form.getEditUrl());
 }
 
