@@ -160,6 +160,7 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
 .hero.has-video .hero__media video{opacity:1}
 .hero__light{position:absolute;inset:-20%;background:radial-gradient(40% 35% at 30% 40%,rgba(255,226,196,.22),transparent 70%);animation:lightdrift 22s ease-in-out infinite alternate;mix-blend-mode:soft-light}
 .hero__shade{position:absolute;inset:0;z-index:-1;background:
+  linear-gradient(180deg,rgba(20,17,16,0) 78%,#141110 100%),
   linear-gradient(180deg,rgba(20,17,16,.42) 0%,rgba(20,17,16,0) 26%,rgba(20,17,16,0) 48%,rgba(20,17,16,.66) 100%),
   linear-gradient(90deg,rgba(28,18,14,.38),rgba(28,18,14,0) 60%)}
 .hero__content{padding-block:calc(var(--nav-h) + 48px) clamp(32px,5vh,56px)}
@@ -572,7 +573,7 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
 .romance__bg{position:absolute;inset:0;z-index:-1;clip-path:inset(0);pointer-events:none}
 .romance__bg canvas{position:fixed;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;transform:scaleX(-1)}
 .romance__bg::after{content:"";position:absolute;inset:0;background:
-  linear-gradient(180deg,rgba(20,17,16,.55) 0%,rgba(20,17,16,.3) 14%,rgba(20,17,16,.3) 80%,#141110 100%),
+  linear-gradient(180deg,#141110 0%,rgba(20,17,16,.3) 12%,rgba(20,17,16,.3) 80%,#141110 100%),
   linear-gradient(90deg,rgba(28,18,14,.4),rgba(28,18,14,0) 60%)}
 .romance__strokes svg{position:absolute;overflow:visible}
 @media (max-width:760px){.romance__strokes svg,.strokes svg{scale:.5}}
@@ -1221,6 +1222,7 @@ window.TESTIMONIALS = [
    ===================================================================== */
 
 window.PORTFOLIO = [
+  { src: "images/portfolio/bridal/bridal-01.jpg",           category: "bridal",      title: "Soft Bridal Glow",        description: "Luminous skin, a soft smoky eye and a nude lip for the bride.",              year: 2026, focus: "50% 25%" },
   { src: "images/portfolio/glam/glam-01.jpg",               category: "glam",        title: "Velvet Noir",             description: "A deep smoky eye and sculpted skin, finished with a soft nude lip.",          year: 2026, featured: true,  focus: "50% 30%" },
   { src: "images/portfolio/editorial/editorial-01.jpg",     category: "editorial",   title: "Downtown Cover",          description: "Cover beauty for DOWNTOWN magazine: warm bronze eyes framed in pearls.",     year: 2026, featured: true,  focus: "50% 45%" },
   { src: "images/portfolio/photoshoots/photoshoot-01.jpg",  category: "photoshoots", title: "Studio Portrait",         description: "Bronzed, defined skin with a soft-focus eye for studio light.",              year: 2026, featured: true,  focus: "50% 30%" },
