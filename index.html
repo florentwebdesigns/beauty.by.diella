@@ -1182,7 +1182,11 @@ window.SITE = {
 
   // Google Sheets inquiry log: paste the Apps Script web app URL (see docs/inquiry-log.gs).
   // Every "Send inquiry" is saved as a row in the sheet. Leave empty ("") to turn logging off.
-  inquiryLog: "https://script.google.com/macros/s/AKfycbznms8Bcm8XFg2sbXG4dONkftOtHcKmKvjINuAEqy9fCxg7YhPL6v7AQZSLopkPliwQ/exec",
+  inquiryLog: "https://script.google.com/macros/s/AKfycbwbjTYMMur49Xp25cbCONwsRlItrwFAKorlSLpoY3DdzYR1lMNuI_HVTxRizUHE0XM/exec",
+
+  // Google Sheets call/text log (see docs/call-log.gs): every tap on a "Text Diella" or phone link
+  // is saved as a row in the "Calls" tab. Leave empty ("") to turn it off.
+  callLog: "https://script.google.com/macros/s/AKfycbznms8Bcm8XFg2sbXG4dONkftOtHcKmKvjINuAEqy9fCxg7YhPL6v7AQZSLopkPliwQ/exec",
 
   // Paste the full Instagram URL, e.g. "https://www.instagram.com/yourhandle/".
   // Leave empty ("") to hide the Instagram link.
@@ -1656,6 +1660,21 @@ window.PORTFOLIO = [
     var smsHref = "sms:" + phone + "?&body=" + encodeURIComponent(smsBody);
     $$('[data-site="phone-link"]').forEach(function (el) { el.href = smsHref; });
   } else $$('[data-site="phone-item"], [data-site="phone-link"]').forEach(function (el) { el.hidden = true; });
+  // Log taps on text/call links (not the booking form, which has its own log)
+  if (SITE.callLog) document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="sms:"], a[href^="tel:"]');
+    if (!a) return;
+    var where = a.closest("section, footer, nav");
+    try {
+      fetch(SITE.callLog, { method: "POST", mode: "no-cors", keepalive: true, body: new URLSearchParams({
+        action: /^tel:/.test(a.getAttribute("href")) ? "Call" : "Text",
+        button: (a.textContent || "").trim().slice(0, 80),
+        section: where ? (where.id || where.tagName.toLowerCase()) : "",
+        device: window.matchMedia && matchMedia("(pointer: coarse)").matches ? "Phone / tablet" : "Computer",
+        page: location.href
+      }) });
+    } catch (err) {}
+  });
   if (SITE.instagram) $$('[data-site="instagram"]').forEach(function (el) { el.href = SITE.instagram; });
   else $$('[data-site="instagram-item"]').forEach(function (el) { el.hidden = true; });
   $("#year").textContent = new Date().getFullYear();
