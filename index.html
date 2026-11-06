@@ -593,6 +593,16 @@ section[id],[data-anchor]{scroll-margin-top:calc(var(--nav-h) - 1px)}
 body:has(#main-portfolio:not([hidden])){background:var(--ink)}
 #main-portfolio{background:var(--ink);color:var(--ivory);--taupe:rgba(247,242,235,.62);--charcoal:#24201e;--stone:rgba(247,242,235,.45);--line:rgba(247,242,235,.16);--line-strong:rgba(247,242,235,.32)}
 #main-portfolio .filters{background:rgba(20,17,16,.92)}
+.recent{padding-block:0 clamp(48px,6vw,88px)}
+.recent__head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:10px 24px;margin-bottom:clamp(22px,3vw,36px)}
+.recent__title{font-family:var(--serif);font-weight:300;font-size:clamp(30px,3.6vw,52px);line-height:1.05;margin:0}
+.recent__note{margin:0;font-size:14px;color:var(--taupe)}
+.recent__note a{color:var(--champagne);border-bottom:1px solid currentColor}
+.recent__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,1.4vw,20px)}
+.recent__grid figure{margin:0;aspect-ratio:4/5;overflow:hidden;background:var(--charcoal)}
+.recent__grid img{width:100%;height:100%;object-fit:cover;object-position:50% 25%;transition:transform 1.2s var(--ease-out)}
+.recent__grid figure:hover img{transform:scale(1.04)}
+@media (max-width:640px){.recent__grid{grid-template-columns:minmax(0,1fr)}}
 #main-portfolio .filters__list button::after{background:var(--ivory)}
 #main-portfolio .filters__list button:hover,#main-portfolio .filters__list button[aria-pressed="true"]{color:var(--ivory)}
 #main-portfolio .btn--dark{color:var(--ivory)}
@@ -1079,6 +1089,21 @@ body:has(#main-portfolio:not([hidden])) .nav.is-solid .btn:hover{color:var(--ink
     </div>
   </section>
 
+
+  <section class="recent" aria-labelledby="recent-title">
+    <div class="wrap">
+      <div class="recent__head">
+        <h2 class="recent__title" id="recent-title">My most recent work</h2>
+        <p class="recent__note">(see more on my Instagram <a href="https://www.instagram.com/beautybydiella/" target="_blank" rel="noopener">@beautybydiella</a>)</p>
+      </div>
+      <div class="recent__grid">
+        <figure><img src="images/portfolio/beauty/beauty-05.jpg" alt="Glam portrait with voluminous curls and a smoky bronze eye, by Diella" loading="lazy" decoding="async"></figure>
+        <figure><img src="images/portfolio/beauty/beauty-06.jpg" alt="Editorial beauty with a soft smoky eye and glossy nude lip, by Diella" loading="lazy" decoding="async"></figure>
+        <figure><img src="images/portfolio/beauty/beauty-07.jpg" alt="Soft glam with sculpted skin, a winged eye and a nude lip, by Diella" loading="lazy" decoding="async"></figure>
+      </div>
+    </div>
+  </section>
+
   <div class="filters" id="filters">
     <div class="wrap filters__inner">
       <ul class="filters__list" id="filterList" aria-label="Filter portfolio by category"></ul>
@@ -1261,6 +1286,9 @@ window.TESTIMONIALS = [
    ===================================================================== */
 
 window.PORTFOLIO = [
+  { src: "images/portfolio/beauty/beauty-05.jpg", category: "beauty", title: "Golden Curls", description: "Glam portrait with voluminous curls and a smoky bronze eye.", year: 2026, focus: "50% 25%" },
+  { src: "images/portfolio/beauty/beauty-06.jpg", category: "beauty", title: "Soft Smoke", description: "Editorial beauty with a soft smoky eye and glossy nude lip.", year: 2026, focus: "50% 25%" },
+  { src: "images/portfolio/beauty/beauty-07.jpg", category: "beauty", title: "Bronzed Waves", description: "Soft glam with sculpted skin, a winged eye and a nude lip.", year: 2026, focus: "50% 25%" },
   { src: "images/portfolio/bridal/bridal-01.jpg",           category: "bridal",      title: "Soft Bridal Glow",        description: "Luminous skin, a soft smoky eye and a nude lip for the bride.",              year: 2026, focus: "50% 25%" },
   { src: "images/portfolio/glam/glam-01.jpg",               category: "glam",        title: "Velvet Noir",             description: "A deep smoky eye and sculpted skin, finished with a soft nude lip.",          year: 2026, featured: true,  focus: "50% 30%" },
   { src: "images/portfolio/editorial/editorial-01.jpg",     category: "editorial",   title: "Downtown Cover",          description: "Cover beauty for DOWNTOWN magazine: warm bronze eyes framed in pearls.",     year: 2026, featured: true,  focus: "50% 45%" },
